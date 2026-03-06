@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- TOP BAR -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="4dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@android:drawable/ic_menu_agenda"
+            app:tint="#1976D2" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Timetable"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:text="Loading..."
+            android:textColor="#757575"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- DAY TABS -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/dayTabs"
+        android:layout_below="@id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor="#1976D2"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="#1976D2"
+        app:tabTextColor="#757575"
+        app:tabRippleColor="#E3F2FD" />
+
+    <!-- TIMETABLE LIST -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTimetable"
+        android:layout_below="@id/dayTabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:background="#FFFFFF" />
+
+</RelativeLayout>

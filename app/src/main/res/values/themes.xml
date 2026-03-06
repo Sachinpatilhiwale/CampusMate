@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.CampusManagementSystem" parent="Theme.Material3.DayNight.NoActionBar"/>
+
+    <style name="Theme.CampusManagementSystem" parent="Base.Theme.CampusManagementSystem" />
+
+    <style name="HomeActivity" parent="Theme.Material3.DayNight" />
+
+    <style name="Theme.MyApp" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
+
+
+</resources>

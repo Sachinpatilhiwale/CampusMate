@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/settingsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:paddingBottom="20dp" />
+
+        <!-- APP FEATURES -->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="APP FEATURES"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#7A7A7A"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp" />-->
+
+        <!-- Dark Mode -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:padding="10dp">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/dark_mode" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Dark Mode"-->
+<!--                android:textSize="16sp"-->
+<!--                android:paddingStart="15dp"-->
+<!--                android:textColor="#000" />-->
+
+<!--            <Switch-->
+<!--                android:id="@+id/switchDark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#D9D9D9" />-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#D9D9D9" />-->
+
+        <!-- Languages -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/layoutLanguage"-->
+<!--            android:padding="10dp"-->
+<!--            android:gravity="center_vertical">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/language" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Languages"-->
+<!--                android:textSize="16sp"-->
+<!--                android:paddingStart="15dp"-->
+<!--                android:textColor="#000" />-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:src="@drawable/right_arrow" />-->
+<!--        </LinearLayout>-->
+
+
+        <!-- ABOUT SECTION -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABOUT US"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#7A7A7A"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp" />
+
+        <!-- Reusable row style -->
+        <!-- Send Email -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutEmail"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/mail" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Send Email"
+                android:textSize="16sp"
+                android:paddingStart="15dp"
+                android:textColor="#000" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+        <!-- About Us -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutAbout"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/info" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="About Us"
+                android:textSize="16sp"
+                android:paddingStart="15dp"
+                android:textColor="#000" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+        <!-- Help -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutHelp"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/help" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Help"
+                android:textSize="16sp"
+                android:paddingStart="15dp"
+                android:textColor="#000" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+        <!-- Help -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutShare"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/send" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Share App"
+                android:textSize="16sp"
+                android:paddingStart="15dp"
+                android:textColor="#000" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+
+
+        <!-- SOCIAL MEDIA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOCIAL MEDIA HANDLES"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#7A7A7A"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imgWhatsApp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/whatsapp" />
+
+            <ImageView
+                android:id="@+id/imgInstagram"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/instagram"
+                android:layout_marginStart="20dp" />
+
+            <ImageView
+                android:id="@+id/imgFacebook"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/facebook"
+                android:layout_marginStart="20dp" />
+
+        </LinearLayout>
+
+        <!-- Sign out -->
+        <TextView
+            android:id="@+id/txtSignOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Out"
+            android:textSize="18sp"
+            android:textColor="#D9534F"
+            android:paddingTop="30dp"
+            android:paddingBottom="20dp"
+            android:padding="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground" />
+
+    </LinearLayout>
+</ScrollView>

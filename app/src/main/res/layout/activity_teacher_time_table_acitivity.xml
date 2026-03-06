@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#101010"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            app:tint="#00AFFF" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Timetable"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:text="1st Year"
+            android:textColor="#BDBDBD"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/dayTabs"
+        android:layout_below="@id/topBar"
+        android:background="#151515"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="scrollable"
+        app:tabTextColor="#8E8E8E"
+        app:tabSelectedTextColor="#00AFFF"
+        app:tabIndicatorColor="#00AFFF"
+        app:tabIndicatorHeight="3dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTimetable"
+        android:layout_below="@id/dayTabs"
+        android:layout_above="@+id/fab_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_input_add"
+        app:tint="#FFFFFF"
+        app:backgroundTint="#00AFFF" />
+
+    <!-- placeholder view so recycler doesn't overlap fab on some devices -->
+    <View
+        android:id="@+id/fab_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

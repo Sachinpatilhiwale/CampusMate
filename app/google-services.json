@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "294192965622",
+    "project_id": "campusmate-e5db0",
+    "storage_bucket": "campusmate-e5db0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294192965622:android:8934c780b724025213c9d7",
+        "android_client_info": {
+          "package_name": "com.mountreach.campusmanagementsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdmjSs7bTCDTN-fYxEUSKasOfZVeABlEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

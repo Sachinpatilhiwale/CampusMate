@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="12dp"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="8dp"
+            android:padding="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <!-- Profile Image -->
+                <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="@drawable/campus_mate_bg_logo"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/circle_bg"
+                    android:contentDescription="Profile"
+                    android:layout_marginTop="4dp"/>
+
+                <!-- Full Name -->
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:hint="Full Name"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/ediittextbg"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:inputType="textPersonName" />
+
+                <!-- Email -->
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Email Address"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/ediittextbg"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:inputType="textEmailAddress" />
+
+                <!-- Branch -->
+                <EditText
+                    android:id="@+id/etSelectBranch"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Select Branch"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/ediittextbg"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+                <!-- Year -->
+                <EditText
+                    android:id="@+id/etSelectYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Select Year"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/ediittextbg"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+                <!-- Gender -->
+                <EditText
+                    android:id="@+id/etSelectGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Select Gender"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:background="@drawable/ediittextbg"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+                <!-- Password with Eye -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Password"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="44dp"
+                        android:background="@drawable/ediittextbg"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:inputType="textPassword"/>
+
+                    <ImageView
+                        android:id="@+id/ivclosedEye"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/closedeyeicon"
+                        android:contentDescription="Toggle Password Visibility"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </RelativeLayout>
+
+                <!-- Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="18dp">
+
+                    <Button
+                        android:id="@+id/btnRegisterStudent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="46dp"
+                        android:text="Register as Student"
+                        android:backgroundTint="@color/teal_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnRegisterTeacher"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="46dp"
+                        android:layout_marginStart="10dp"
+                        android:text="Register as Teacher"
+                        android:backgroundTint="@color/red_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Login link -->
+                <TextView
+                    android:id="@+id/tvLoginLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Already have an account? Login"
+                    android:textColor="@color/teal_700"
+                    android:layout_marginTop="16dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</LinearLayout>
