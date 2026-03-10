@@ -77,6 +77,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COL_SUBJECT = "subject";
     private static final String COL_URI = "file_uri";
 
+    // COMPLAINT TABLE
+    public static final String TABLE_COMPLAINT = "complaints";
+    public static final String COL_C_ID = "id";
+    public static final String COL_C_TYPE = "type";
+    public static final String COL_C_TITLE = "title";
+    public static final String COL_C_DESC = "description";
+    public static final String COL_C_IMAGE = "image_uri";
+
 
 
     public DBHelper(Context context) {
@@ -136,6 +144,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 COL_DESC + " TEXT, " +
                 COL_SUBJECT + " TEXT, " +
                 COL_URI + " TEXT)");
+
+        //Complaint
+
+        db.execSQL("CREATE TABLE " + TABLE_COMPLAINT + " (" +
+                COL_C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_C_TYPE + " TEXT, " +
+                COL_C_TITLE + " TEXT, " +
+                COL_C_DESC + " TEXT, " +
+                COL_C_IMAGE + " TEXT)");
     }
 
 
@@ -173,6 +190,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_TIMETABLE, null, cv);
     }
+
+
 
     // Fetch timetable by day
     public Cursor getTimetableByDay(String day) {
@@ -471,6 +490,26 @@ public class DBHelper extends SQLiteOpenHelper {
                         " WHERE " + COL_A_ENROLL + "=? " +
                         "GROUP BY " + COL_A_SUBJECT,
                 new String[]{enroll});
+
+
+
+    }
+
+    //Complaint
+
+    public boolean insertComplaint(String type, String title, String desc, String imageUri) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COL_C_TYPE, type);
+        cv.put(COL_C_TITLE, title);
+        cv.put(COL_C_DESC, desc);
+        cv.put(COL_C_IMAGE, imageUri);
+
+        long result = db.insert(TABLE_COMPLAINT, null, cv);
+
+        return result != -1;
     }
 
 }

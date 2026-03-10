@@ -47,8 +47,8 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         // Init Views
-//        switchDark = findViewById(R.id.switchDark);
-//        layoutLanguage = findViewById(R.id.layoutLanguage);
+        switchDark = findViewById(R.id.switchDark);
+        layoutLanguage = findViewById(R.id.layoutLanguage);
         layoutEmail = findViewById(R.id.layoutEmail);
         layoutAbout = findViewById(R.id.layoutAbout);
         layoutHelp = findViewById(R.id.layoutHelp);

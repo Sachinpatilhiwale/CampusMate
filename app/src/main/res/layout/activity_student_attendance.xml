@@ -22,6 +22,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/backward"
+            android:background="@drawable/circle_background"
             android:padding="4dp" />
 
         <!-- Title -->

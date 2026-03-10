@@ -17,9 +17,11 @@
         android:elevation="4dp">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@android:drawable/ic_menu_agenda"
+            android:id="@+id/btnbackward"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/backward"
+            android:background="@drawable/circle_background"
             app:tint="#1976D2" />
 
         <TextView

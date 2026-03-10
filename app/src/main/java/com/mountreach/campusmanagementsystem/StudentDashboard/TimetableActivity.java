@@ -3,6 +3,7 @@ package com.mountreach.campusmanagementsystem.StudentDashboard;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class TimetableActivity extends AppCompatActivity {
     TimetableAdapter adapter;
     DBHelper dbHelper;
     String selectedDay = "Mon";
+    ImageView btnbackward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,11 @@ public class TimetableActivity extends AppCompatActivity {
 
         dayTabs = findViewById(R.id.dayTabs);
         rv = findViewById(R.id.rvTimetable);
+        btnbackward = findViewById(R.id.btnbackward);
+
+        btnbackward.setOnClickListener(v -> {
+            onBackPressed();   // go back to previous screen
+        });
 
         dbHelper = new DBHelper(this);
 

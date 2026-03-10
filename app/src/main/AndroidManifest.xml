@@ -19,6 +19,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".StudentDashboard.ViewComplaintsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StudentDashboard.ShowComplaintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StudentDashboard.ComplaintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StudentDashboard.Complaint"
+            android:exported="false" />
+        <activity
             android:name=".StudentDashboard.NoticeDetailActivity"
             android:exported="false" />
         <activity

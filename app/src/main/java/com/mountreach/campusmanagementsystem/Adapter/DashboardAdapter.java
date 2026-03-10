@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mountreach.campusmanagementsystem.StudentDashboard.CalenderActivity;
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
+import com.mountreach.campusmanagementsystem.StudentDashboard.ComplaintActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.StudentAttendanceActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.StudyMaterialActivity;
@@ -68,6 +69,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
                 case "MSBTE Result":
                     intent = new Intent(context, MSBTE_Result_Activity.class);
+                    break;
+
+                case "Complaint":
+                    intent = new Intent(context, ComplaintActivity.class);
                     break;
 
             }
