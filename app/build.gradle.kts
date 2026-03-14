@@ -67,4 +67,10 @@ dependencies {
 
     implementation ("androidx.biometric:biometric:1.2.0-alpha05")
 
+
+    //ai dependancy
+
+
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+
 }

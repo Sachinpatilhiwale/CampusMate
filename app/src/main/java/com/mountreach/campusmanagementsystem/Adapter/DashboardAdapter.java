@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mountreach.campusmanagementsystem.StudentDashboard.AiActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.CalenderActivity;
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
@@ -74,6 +75,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                 case "Complaint":
                     intent = new Intent(context, ComplaintActivity.class);
                     break;
+
+                case "AI chatbot":
+                    intent = new Intent(context, AiActivity.class);
+                    break;
+
 
             }
 

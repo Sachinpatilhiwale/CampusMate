@@ -41,6 +41,8 @@ public class HomeFragment extends Fragment {
         itemList.add(new DashboardItem(R.drawable.study_material, "Study Material"));
         itemList.add(new DashboardItem(R.drawable.msbte, "MSBTE Result"));
         itemList.add(new DashboardItem(R.drawable.complaint, "Complaint"));
+        itemList.add(new DashboardItem(R.drawable.ai, "AI chatbot"));
+
 
         adapter = new DashboardAdapter(getContext(), itemList);
         dashboardRecycler.setAdapter(adapter);
