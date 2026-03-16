@@ -39,6 +39,7 @@ public class Teacher_HomeFragment extends Fragment {
         itemList.add(new DashboardItem(R.drawable.calendar, "A.Y Calendar"));
         itemList.add(new DashboardItem(R.drawable.timetable, "Timetable"));
         itemList.add(new DashboardItem(R.drawable.study_material, "Study Material"));
+        itemList.add(new DashboardItem(R.drawable.complaint, "Complaints"));
 
         adapter = new Teacher_DashboardAdapter(getContext(), itemList);
         dashboardRecycler.setAdapter(adapter);

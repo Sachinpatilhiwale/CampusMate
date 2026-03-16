@@ -11,19 +11,22 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mountreach.campusmanagementsystem.Database.DBHelper;
 import com.mountreach.campusmanagementsystem.R;
 
-import java.io.ByteArrayOutputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class ComplaintActivity extends AppCompatActivity {
 
     Spinner spinnerComplaintType;
     EditText etTitle, etDescription;
-    ImageView ivSelectedImage,btnbackward;
-    Button btnChooseImage, btnCaptureImage, btnSubmit,btn;
+    ImageView ivSelectedImage, btnbackward;
+    Button btnChooseImage, btnCaptureImage, btnSubmit;
+
     Uri selectedImageUri;
-    DBHelper dbHelper;
+
     static final int PICK_IMAGE = 1;
     static final int CAPTURE_IMAGE = 2;
 
@@ -37,23 +40,12 @@ public class ComplaintActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.et_description);
         ivSelectedImage = findViewById(R.id.iv_selected_image);
         btnbackward = findViewById(R.id.btnbackward);
+
         btnChooseImage = findViewById(R.id.btn_choose_image);
         btnCaptureImage = findViewById(R.id.btn_capture_image);
         btnSubmit = findViewById(R.id.btn_submit);
 
-        Button btnViewComplaints = findViewById(R.id.btn_view_complaints);
-
-        btnViewComplaints.setOnClickListener(v -> {
-            Intent intent = new Intent(ComplaintActivity.this, ViewComplaintsActivity.class);
-            startActivity(intent);
-        });
-
-        btnbackward.setOnClickListener(v -> {
-            onBackPressed();   // go back to previous screen
-        });
-        dbHelper = new DBHelper(this);
-
-        String[] types = {"Infrastructure", "Faculty", "Hostel", "Library", "Canteen"};
+        String[] types = {"Infrastructure","Faculty","Hostel","Library","Canteen"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -68,42 +60,42 @@ public class ComplaintActivity extends AppCompatActivity {
         btnCaptureImage.setOnClickListener(v -> openCamera());
 
         btnSubmit.setOnClickListener(v -> saveComplaint());
+
+        btnbackward.setOnClickListener(v -> onBackPressed());
     }
 
-    private void openGallery() {
+    private void openGallery(){
 
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(intent, PICK_IMAGE);
+        startActivityForResult(intent,PICK_IMAGE);
     }
 
-    private void openCamera() {
+    private void openCamera(){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        startActivityForResult(intent, CAPTURE_IMAGE);
+        startActivityForResult(intent,CAPTURE_IMAGE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
 
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode,resultCode,data);
 
-        if (resultCode == Activity.RESULT_OK) {
+        if(resultCode == Activity.RESULT_OK){
 
-            if (requestCode == PICK_IMAGE && data != null) {
+            if(requestCode == PICK_IMAGE && data!=null){
 
                 selectedImageUri = data.getData();
+
                 ivSelectedImage.setImageURI(selectedImageUri);
                 ivSelectedImage.setVisibility(View.VISIBLE);
-
             }
 
-            if (requestCode == CAPTURE_IMAGE && data != null) {
+            if(requestCode == CAPTURE_IMAGE && data!=null){
 
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-
-                selectedImageUri = getImageUri(bitmap);
 
                 ivSelectedImage.setImageBitmap(bitmap);
                 ivSelectedImage.setVisibility(View.VISIBLE);
@@ -111,53 +103,64 @@ public class ComplaintActivity extends AppCompatActivity {
         }
     }
 
-    private Uri getImageUri(Bitmap bitmap) {
+    private void saveComplaint(){
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
-        String path = MediaStore.Images.Media.insertImage(
-                getContentResolver(),
-                bitmap,
-                "Complaint",
-                null
-        );
-
-        return Uri.parse(path);
-    }
-
-    private void saveComplaint() {
-
-        String type = spinnerComplaintType.getSelectedItem().toString();
         String title = etTitle.getText().toString();
         String desc = etDescription.getText().toString();
 
-        String imageUri = "";
+        if(title.isEmpty() || desc.isEmpty()){
 
-        if (selectedImageUri != null) {
-            imageUri = selectedImageUri.toString();
-        }
-
-        if (title.isEmpty() || desc.isEmpty()) {
-
-            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Fill all fields",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        boolean result = dbHelper.insertComplaint(type, title, desc, imageUri);
+        new Thread(() -> {
 
-        if (result) {
+            try{
 
-            Toast.makeText(this, "Complaint Submitted", Toast.LENGTH_SHORT).show();
+                URL url = new URL("http://YOUR_PC_IP/complaint_api/add_complaint.php");
 
-            etTitle.setText("");
-            etDescription.setText("");
-            ivSelectedImage.setVisibility(View.GONE);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-        } else {
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
 
-            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
-        }
+                String data =
+                        "name="+ URLEncoder.encode(title,"UTF-8")+
+                                "&complaint="+ URLEncoder.encode(desc,"UTF-8");
+
+                OutputStream os = conn.getOutputStream();
+                os.write(data.getBytes());
+                os.flush();
+                os.close();
+
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream())
+                );
+
+                String response = br.readLine();
+
+                runOnUiThread(() -> {
+
+                    if(response!=null && response.contains("success")){
+
+                        Toast.makeText(this,"Complaint Submitted",Toast.LENGTH_SHORT).show();
+
+                        etTitle.setText("");
+                        etDescription.setText("");
+                        ivSelectedImage.setVisibility(View.GONE);
+
+                    }else{
+
+                        Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }).start();
     }
 }

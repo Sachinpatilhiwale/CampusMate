@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".TeacherDashboard.ViewComplaintsActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudentDashboard.AiActivity"
             android:exported="false" />
         <activity

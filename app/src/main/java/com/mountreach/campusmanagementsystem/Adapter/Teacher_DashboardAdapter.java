@@ -17,6 +17,7 @@ import com.mountreach.campusmanagementsystem.R;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_CalenderActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_StudyMaterialActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_TimeTableActivity;
+import com.mountreach.campusmanagementsystem.TeacherDashboard.ViewComplaintsActivity;
 
 import java.util.List;
 
@@ -63,6 +64,10 @@ public class Teacher_DashboardAdapter extends RecyclerView.Adapter<Teacher_Dashb
 
                 case "Study Material":
                     intent = new Intent(context, Teacher_StudyMaterialActivity.class);
+                    break;
+
+                case "Complaints":
+                    intent = new Intent(context, ViewComplaintsActivity.class);
                     break;
             }
 
