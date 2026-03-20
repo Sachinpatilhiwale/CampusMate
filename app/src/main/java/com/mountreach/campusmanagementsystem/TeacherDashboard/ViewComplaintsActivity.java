@@ -1,6 +1,7 @@
 package com.mountreach.campusmanagementsystem.TeacherDashboard;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,7 +49,7 @@ public class ViewComplaintsActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("http://10.111.235.231/complaint_api/get_complaints.php");
+                URL url = new URL("http://10.130.49.231/complaint_api/get_complaints.php");
 
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader(url.openStream())
@@ -74,6 +75,8 @@ public class ViewComplaintsActivity extends AppCompatActivity {
 
             }catch(Exception e){
                 e.printStackTrace();
+
+                Toast.makeText(this, ""+e.getMessage()+"", Toast.LENGTH_SHORT).show();
             }
 
         }).start();

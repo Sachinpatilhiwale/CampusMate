@@ -118,7 +118,7 @@ public class ComplaintActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("http://YOUR_PC_IP/complaint_api/add_complaint.php");
+                URL url = new URL("http://10.130.49.231/complaint_api/add_complaint.php");
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
