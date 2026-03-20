@@ -63,6 +63,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation(libs.monitor)
     implementation(libs.ext.junit)
+    implementation(libs.firebase.database)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     implementation ("androidx.biometric:biometric:1.2.0-alpha05")

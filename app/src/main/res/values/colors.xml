@@ -9,5 +9,6 @@
     <color name="ios_green">#34C759</color>
     <color name="background_blue">#f0f8ff</color>
     <color name="light_gray">#F5F5F5</color>
+    <color name="purple_500">#9C27B0</color>
 
 </resources>
