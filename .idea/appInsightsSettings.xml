@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.mountreach.campusmanagementsystem" />
-                  <option name="mobileSdkAppId" value="1:294192965622:android:8934c780b724025213c9d7" />
-                  <option name="projectId" value="campusmate-e5db0" />
-                  <option name="projectNumber" value="294192965622" />
+                  <option name="mobileSdkAppId" value="1:42863623253:android:7f5ab7a85b741000cf68dc" />
+                  <option name="projectId" value="campusmate-63df3" />
+                  <option name="projectNumber" value="42863623253" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -7,11 +7,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mountreach.campusmanagementsystem.Database.DBHelper;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mountreach.campusmanagementsystem.R;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_Dashboard;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,9 +23,11 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegisterStudent, btnRegisterTeacher;
     TextView tvLoginLink;
     ImageView ivclosedEye;
+
     boolean isPasswordVisible = false;
 
-    DBHelper dbHelper;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
         setupButtons();
     }
 
-    // ------------------ INITIALIZE VIEWS ------------------
     private void initViews() {
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
@@ -42,42 +47,34 @@ public class RegisterActivity extends AppCompatActivity {
         etSelectBranch = findViewById(R.id.etSelectBranch);
         etSelectYear = findViewById(R.id.etSelectYear);
         etSelectGender = findViewById(R.id.etSelectGender);
+
         btnRegisterStudent = findViewById(R.id.btnRegisterStudent);
         btnRegisterTeacher = findViewById(R.id.btnRegisterTeacher);
         tvLoginLink = findViewById(R.id.tvLoginLink);
         ivclosedEye = findViewById(R.id.ivclosedEye);
 
-        dbHelper = new DBHelper(RegisterActivity.this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
-    // ------------------ DROPDOWN SETUP ------------------
     private void setupDropdowns() {
-        etSelectBranch.setOnClickListener(v -> showListDialog(
-                "Select Branch",
-                new String[]{"Computer Engineering", "IT Engineering", "ENTC Engineering",
-                        "Mechanical Engineering", "Civil Engineering", "Electrical Engineering"},
-                etSelectBranch
-        ));
+        etSelectBranch.setOnClickListener(v -> showListDialog("Select Branch",
+                new String[]{"Computer", "IT", "ENTC", "Mechanical", "Civil", "Electrical"},
+                etSelectBranch));
 
-        etSelectYear.setOnClickListener(v -> showListDialog(
-                "Select Year",
-                new String[]{"FE (First Year)", "SE (Second Year)", "TE (Third Year)"},
-                etSelectYear
-        ));
+        etSelectYear.setOnClickListener(v -> showListDialog("Select Year",
+                new String[]{"FE", "SE", "TE"},
+                etSelectYear));
 
-        etSelectGender.setOnClickListener(v -> showListDialog(
-                "Select Gender",
+        etSelectGender.setOnClickListener(v -> showListDialog("Select Gender",
                 new String[]{"Male", "Female", "Other"},
-                etSelectGender
-        ));
+                etSelectGender));
     }
 
-    // ------------------ PASSWORD TOGGLE ------------------
     private void setupPasswordToggle() {
         ivclosedEye.setOnClickListener(v -> {
-            int start = etPassword.getSelectionStart();
-            int end = etPassword.getSelectionEnd();
-            android.graphics.Typeface typeface = etPassword.getTypeface();
+            int cursor = etPassword.getSelectionStart();
+
             if (isPasswordVisible) {
                 etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 ivclosedEye.setImageResource(R.drawable.closedeyeicon);
@@ -85,26 +82,22 @@ public class RegisterActivity extends AppCompatActivity {
                 etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 ivclosedEye.setImageResource(R.drawable.openedeyeicon);
             }
-            etPassword.setTypeface(typeface);
-            etPassword.setSelection(start, end);
+
+            etPassword.setSelection(cursor);
             isPasswordVisible = !isPasswordVisible;
         });
     }
 
-    // ------------------ BUTTON ACTIONS ------------------
     private void setupButtons() {
-
         btnRegisterStudent.setOnClickListener(v -> registerUser("Student"));
-
         btnRegisterTeacher.setOnClickListener(v -> registerUser("Teacher"));
 
         tvLoginLink.setOnClickListener(v -> {
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
     }
 
-    // ------------------ REGISTER USER ------------------
     private void registerUser(String role) {
 
         String name = etName.getText().toString().trim();
@@ -114,47 +107,62 @@ public class RegisterActivity extends AppCompatActivity {
         String year = etSelectYear.getText().toString().trim();
         String gender = etSelectGender.getText().toString().trim();
 
-        // Validate fields
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty() ||
-                branch.isEmpty() || year.isEmpty() || gender.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()
+                || branch.isEmpty() || year.isEmpty() || gender.isEmpty()) {
+            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Insert user login details
-        boolean inserted = dbHelper.insertUser(name, email, password, role);
-
-        if (!inserted) {
-            Toast.makeText(this, "Registration failed. Email already exists.", Toast.LENGTH_SHORT).show();
+        if (password.length() < 6) {
+            etPassword.setError("Min 6 characters");
             return;
         }
 
-        // Insert user profile details
-        dbHelper.insertUserProfile(name, email, branch, year, gender);
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
 
-        // Save Login session
-        SharedPreferences.Editor editor = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
-        editor.putBoolean("isLoggedIn", true);
-        editor.putString("email", email);
-        editor.putString("role", role);
-        editor.apply();
+                    if (task.isSuccessful()) {
 
-        Toast.makeText(this, role + " Registered Successfully", Toast.LENGTH_SHORT).show();
+                        String userId = firebaseAuth.getCurrentUser().getUid();
 
-        // Navigate to respective dashboard
-        Intent intent = role.equals("Teacher") ?
-                new Intent(this, Teacher_Dashboard.class) :
-                new Intent(this, Student_Dashboard.class);
+                        HashMap<String, Object> userMap = new HashMap<>();
+                        userMap.put("name", name);
+                        userMap.put("email", email);
+                        userMap.put("branch", branch);
+                        userMap.put("year", year);
+                        userMap.put("gender", gender);
+                        userMap.put("role", role);
 
-        startActivity(intent);
-        finish();
+                        db.collection("users").document(userId)
+                                .set(userMap)
+                                .addOnSuccessListener(unused -> {
+
+                                    SharedPreferences.Editor editor =
+                                            getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
+                                    editor.putBoolean("isLoggedIn", true);
+                                    editor.putString("role", role);
+                                    editor.apply();
+
+                                    Intent intent = role.equals("Teacher") ?
+                                            new Intent(this, Teacher_Dashboard.class) :
+                                            new Intent(this, Student_Dashboard.class);
+
+                                    startActivity(intent);
+                                    finish();
+                                });
+
+                    } else {
+                        Toast.makeText(this,
+                                "Error: " + task.getException().getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
-    // ------------------ GENERIC LIST DIALOG ------------------
-    private void showListDialog(String title, String[] items, EditText targetEditText) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setItems(items, (dialog, which) -> targetEditText.setText(items[which]));
-        builder.show();
+    private void showListDialog(String title, String[] items, EditText target) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setItems(items, (d, i) -> target.setText(items[i]))
+                .show();
     }
 }

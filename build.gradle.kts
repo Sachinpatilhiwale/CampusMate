@@ -8,3 +8,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
     }
 }
+plugins {
+    alias(libs.plugins.google.gms.google.services) apply false
+}

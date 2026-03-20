@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -64,6 +65,9 @@ dependencies {
     implementation(libs.monitor)
     implementation(libs.ext.junit)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.auth)
+    implementation(libs.google.firebase.firestore)
+    implementation(libs.firebase.storage)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     implementation ("androidx.biometric:biometric:1.2.0-alpha05")
