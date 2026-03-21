@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.mountreach.campusmanagementsystem.R;
@@ -15,62 +17,78 @@ import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_HomeFragme
 import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_MyprofileFragment;
 import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_NoticeFragment;
 
-public class Teacher_Dashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class Teacher_Dashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    // Initialize fragments
     Teacher_HomeFragment homeFragment = new Teacher_HomeFragment();
     Teacher_NoticeFragment noticeFragment = new Teacher_NoticeFragment();
-    Teacher_MyprofileFragment myprofileFragmnet = new Teacher_MyprofileFragment();
+    Teacher_MyprofileFragment myprofileFragment = new Teacher_MyprofileFragment();
+
     BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_dashboard);
 
-        setTitle("CampusMate");
+        setTitle("CampusMate (Teacher)");
 
         bottomNavigationView = findViewById(R.id.homebotttomnavigationview);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.teacherhomeframelayout, homeFragment)
-                .commit();
+        // --- Load Default Home Fragment ---
+        // We use a check for savedInstanceState to prevent overlapping on rotation
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.teacherhomeframelayout, homeFragment)
+                    .commit();
 
-        bottomNavigationView.setSelectedItemId(R.id.bottommenuhome);
-
+            // Set the default selected item in the bottom bar
+            bottomNavigationView.setSelectedItemId(R.id.teacherbottommenuhome);
+        }
     }
+
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menusetting) {
-            Intent intent = new Intent(Teacher_Dashboard.this, SettingActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(Teacher_Dashboard.this, SettingActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.teacherbottommenuhome)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.teacherhomeframelayout,homeFragment).commit();
+        int id = item.getItemId();
+
+        if (id == R.id.teacherbottommenuhome) {
+            loadFragment(homeFragment);
+            return true;
+        } else if (id == R.id.teacherbottommenunotice) {
+            loadFragment(noticeFragment);
+            return true;
+        } else if (id == R.id.teacherbottommenuprofile) {
+            loadFragment(myprofileFragment);
+            return true;
         }
-        else if (item.getItemId() == R.id.teacherbottommenunotice)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.teacherhomeframelayout, noticeFragment).commit();
-        }
-        else if (item.getItemId() == R.id.teacherbottommenuprofile)
-        {
-            getSupportFragmentManager().beginTransaction().replace(R.id.teacherhomeframelayout, myprofileFragmnet).commit();
-        }
-        return true;
+
+        return false;
+    }
+
+    // Helper method to keep code clean
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.teacherhomeframelayout, fragment)
+                .commit();
     }
 }

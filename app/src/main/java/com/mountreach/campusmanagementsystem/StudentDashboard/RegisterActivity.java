@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         initViews();
         setupDropdowns();
         setupPasswordToggle();
@@ -45,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegisterTeacher = findViewById(R.id.btnRegisterTeacher);
         tvLoginLink = findViewById(R.id.tvLoginLink);
         ivclosedEye = findViewById(R.id.ivclosedEye);
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }
@@ -58,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         String gender = etSelectGender.getText().toString().trim();
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || branch.isEmpty() || year.isEmpty()) {
-            Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -77,24 +79,34 @@ public class RegisterActivity extends AppCompatActivity {
 
                         db.collection("users").document(userId).set(userMap)
                                 .addOnSuccessListener(unused -> {
-                                    // SAVE FILTERS TO LOCAL STORAGE
+                                    // SAVE FILTERS TO LOCAL STORAGE (loginPrefs)
                                     SharedPreferences.Editor editor = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
                                     editor.putBoolean("isLoggedIn", true);
                                     editor.putString("role", role);
-                                    editor.putString("branch", branch); // Store for filtering
-                                    editor.putString("year", year);     // Store for filtering
+                                    editor.putString("branch", branch);
+                                    editor.putString("year", year);
                                     editor.apply();
 
-                                    Intent intent = role.equals("Teacher") ?
-                                            new Intent(this, Teacher_Dashboard.class) :
-                                            new Intent(this, Student_Dashboard.class);
-                                    startActivity(intent);
-                                    finish();
+                                    // Direct Navigation
+                                    navigateToHome(role);
                                 });
                     } else {
                         Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void navigateToHome(String role) {
+        Intent intent;
+        if (role.equals("Teacher")) {
+            intent = new Intent(RegisterActivity.this, Teacher_Dashboard.class);
+        } else {
+            intent = new Intent(RegisterActivity.this, Student_Dashboard.class);
+        }
+        // Flags to clear the activity stack so user can't go back to Register page
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void setupDropdowns() {
