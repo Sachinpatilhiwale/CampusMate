@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
 import com.mountreach.campusmanagementsystem.StudentDashboard.AiActivity;
-import com.mountreach.campusmanagementsystem.StudentDashboard.Student_LeaveRequestActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_A_Y_Calender;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_AttendanceActivity;
+import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_ComplaintActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_LeaveRequestActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_StudyMaterialActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_TimeTableActivity;
-import com.mountreach.campusmanagementsystem.TeacherDashboard.ViewComplaintsActivity;
 
 import java.util.List;
 
@@ -71,8 +70,8 @@ public class Teacher_DashboardAdapter extends RecyclerView.Adapter<Teacher_Dashb
                     intent = new Intent(context, Teacher_StudyMaterialActivity.class);
                     break;
 
-                case "Complaints":
-                    intent = new Intent(context, ViewComplaintsActivity.class);
+                case "Complaint":
+                    intent = new Intent(context, Teacher_ComplaintActivity.class);
                     break;
 
                 case "MSBTE Result":

@@ -16,7 +16,7 @@ import com.mountreach.campusmanagementsystem.StudentDashboard.AiActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.CalenderActivity;
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
-import com.mountreach.campusmanagementsystem.StudentDashboard.ComplaintActivity;
+import com.mountreach.campusmanagementsystem.StudentDashboard.Student_ComplaintActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.FacilitesActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.Student_LeaveRequestActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
@@ -78,7 +78,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                     break;
 
                 case "Complaint":
-                    intent = new Intent(context, ComplaintActivity.class);
+                    intent = new Intent(context, Student_ComplaintActivity.class);
                     break;
 
                 case "AI chatbot":

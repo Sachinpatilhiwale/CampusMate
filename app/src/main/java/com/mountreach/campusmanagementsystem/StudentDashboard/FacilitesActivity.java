@@ -43,7 +43,7 @@ public class FacilitesActivity extends AppCompatActivity {
         // View bookings click
         tvViewYourBookings = findViewById(R.id.tvViewYourBookings);
         tvViewYourBookings.setOnClickListener(v -> {
-            Intent intent = new Intent(FacilitesActivity.this, ComplaintActivity.class);
+            Intent intent = new Intent(FacilitesActivity.this, Student_ComplaintActivity.class);
             startActivity(intent);
         });
     }
