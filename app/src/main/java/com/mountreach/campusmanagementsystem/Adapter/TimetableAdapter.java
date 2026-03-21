@@ -1,8 +1,10 @@
 package com.mountreach.campusmanagementsystem.Adapter;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mountreach.campusmanagementsystem.Model.TimetableModel;
 import com.mountreach.campusmanagementsystem.R;
@@ -50,14 +53,24 @@ public class TimetableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TimetableModel model = list.get(position);
 
+        // Get Department Info for Firebase Path
+        SharedPreferences prefs = context.getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        String branch = prefs.getString("branch", "");
+        String year = prefs.getString("year", "");
+
+        // Reference: Timetable -> IT -> TE -> Day -> Key
+        DatabaseReference itemRef = FirebaseDatabase.getInstance().getReference("Timetable")
+                .child(branch).child(year).child(model.day).child(model.key);
+
         if (isTeacher) {
             TeacherViewHolder h = (TeacherViewHolder) holder;
             h.etSubject.setText(model.subject);
             h.etTeacher.setText(model.teacher);
             h.etTime.setText(model.time);
             h.etRoom.setText(model.room);
+            h.etDate.setText(model.date);
 
-            // 1. Time Picker
+            // Time Picker
             h.etTime.setOnClickListener(v -> {
                 Calendar c = Calendar.getInstance();
                 new TimePickerDialog(context, (tp, h1, m1) ->
@@ -65,28 +78,35 @@ public class TimetableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
             });
 
-            // 2. Update Logic
+            // Date Picker
+            h.etDate.setOnClickListener(v -> {
+                Calendar c = Calendar.getInstance();
+                new DatePickerDialog(context, (view, year1, month, dayOfMonth) -> {
+                    h.etDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year1);
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+            });
+
+            // UPDATE Logic (Correct Path)
             h.btnUpdate.setOnClickListener(v -> {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("subject", h.etSubject.getText().toString());
                 map.put("teacher", h.etTeacher.getText().toString());
                 map.put("time", h.etTime.getText().toString());
                 map.put("room", h.etRoom.getText().toString());
+                map.put("date", h.etDate.getText().toString());
 
-                FirebaseDatabase.getInstance().getReference("Timetable")
-                        .child(model.day).child(model.key).updateChildren(map)
-                        .addOnSuccessListener(a -> Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show());
+                itemRef.updateChildren(map).addOnSuccessListener(a ->
+                        Toast.makeText(context, "Updated in " + branch + " department", Toast.LENGTH_SHORT).show());
             });
 
-            // 3. Delete Button Logic (Red Button)
+            // DELETE Logic (Correct Path)
             h.btnDelete.setOnClickListener(v -> {
                 new AlertDialog.Builder(context)
                         .setTitle("Delete Class")
-                        .setMessage("Are you sure you want to delete " + model.subject + "?")
+                        .setMessage("Remove " + model.subject + " for " + year + " " + branch + "?")
                         .setPositiveButton("Yes", (d, w) -> {
-                            FirebaseDatabase.getInstance().getReference("Timetable")
-                                    .child(model.day).child(model.key).removeValue()
-                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
+                            itemRef.removeValue().addOnSuccessListener(a ->
+                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
                         })
                         .setNegativeButton("No", null)
                         .show();
@@ -98,6 +118,8 @@ public class TimetableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             h.tvTeacher.setText(model.teacher);
             h.tvTime.setText(model.time);
             h.tvRoom.setText(model.room);
+            // If you added tvDate to student layout:
+            // h.tvDate.setText(model.date);
         }
     }
 
@@ -115,15 +137,16 @@ public class TimetableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public static class TeacherViewHolder extends RecyclerView.ViewHolder {
-        EditText etSubject, etTeacher, etTime, etRoom;
-        Button btnUpdate, btnDelete; // Added btnDelete
+        EditText etSubject, etTeacher, etTime, etRoom, etDate;
+        Button btnUpdate, btnDelete;
         public TeacherViewHolder(View v) { super(v);
             etSubject = v.findViewById(R.id.etSubject);
             etTeacher = v.findViewById(R.id.etTeacher);
             etTime = v.findViewById(R.id.etTime);
             etRoom = v.findViewById(R.id.etRoom);
+            etDate = v.findViewById(R.id.etDate);
             btnUpdate = v.findViewById(R.id.btnUpdate);
-            btnDelete = v.findViewById(R.id.btnDelete); // Initialize delete button
+            btnDelete = v.findViewById(R.id.btnDelete);
         }
     }
 }

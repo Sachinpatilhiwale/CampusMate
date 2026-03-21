@@ -24,25 +24,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
-        // --- Check if already logged in ---
+        // --- Persistent Login Check ---
         SharedPreferences prefs = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
         String role = prefs.getString("role", "");
-        if (isLoggedIn && !role.isEmpty() && FirebaseAuth.getInstance().getCurrentUser() != null) {
-            // User is already logged in, go directly to dashboard
-            Intent intent = role.equals("Teacher") ?
-                    new Intent(this, Teacher_Dashboard.class) :
-                    new Intent(this, Student_Dashboard.class);
-            startActivity(intent);
-            finish();
+
+        if (isLoggedIn && FirebaseAuth.getInstance().getCurrentUser() != null) {
+            navigateToDashboard(role);
             return;
         }
 
         setContentView(R.layout.activity_login);
-
         initViews();
         setupPasswordToggle();
         setupButtons();
@@ -55,32 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginTeacher = findViewById(R.id.btnLoginTeacher);
         tvRegisterLink = findViewById(R.id.tvRegisterLink);
         ivclosedEye = findViewById(R.id.ivclosedEye);
-
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-    }
-
-    private void setupPasswordToggle() {
-        ivclosedEye.setOnClickListener(v -> {
-            int cursor = etPassword.getSelectionStart();
-
-            if (isPasswordVisible) {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                ivclosedEye.setImageResource(R.drawable.closedeyeicon);
-            } else {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                ivclosedEye.setImageResource(R.drawable.openedeyeicon);
-            }
-
-            etPassword.setSelection(cursor);
-            isPasswordVisible = !isPasswordVisible;
-        });
     }
 
     private void setupButtons() {
         btnLoginStudent.setOnClickListener(v -> loginUser());
         btnLoginTeacher.setOnClickListener(v -> loginUser());
-
         tvRegisterLink.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
             finish();
@@ -88,58 +63,63 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (email.isEmpty()) {
-            etEmail.setError("Enter email");
-            return;
-        }
-
-        if (password.isEmpty()) {
-            etPassword.setError("Enter password");
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-
                     if (task.isSuccessful()) {
-
                         String userId = firebaseAuth.getCurrentUser().getUid();
 
-                        db.collection("users").document(userId)
-                                .get()
-                                .addOnSuccessListener(doc -> {
+                        // FETCH USER DATA FROM FIRESTORE
+                        db.collection("users").document(userId).get().addOnSuccessListener(doc -> {
+                            if (doc.exists()) {
+                                String role = doc.getString("role");
+                                String branch = doc.getString("branch");
+                                String year = doc.getString("year");
 
-                                    String role = doc.getString("role");
+                                // SAVE ALL INFO LOCALLY
+                                SharedPreferences.Editor editor = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.putString("role", role);
+                                editor.putString("branch", branch); // Save Branch
+                                editor.putString("year", year);     // Save Year
+                                editor.apply();
 
-                                    // Save login info for persistent login
-                                    SharedPreferences.Editor editor =
-                                            getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
-
-                                    editor.putBoolean("isLoggedIn", true);
-                                    editor.putString("role", role);
-                                    editor.apply();
-
-                                    // Go to dashboard
-                                    Intent intent = role.equals("Teacher") ?
-                                            new Intent(this, Teacher_Dashboard.class) :
-                                            new Intent(this, Student_Dashboard.class);
-
-                                    startActivity(intent);
-                                    finish();
-                                })
-                                .addOnFailureListener(e ->
-                                        Toast.makeText(this, "Failed to get user info: " + e.getMessage(),
-                                                Toast.LENGTH_LONG).show());
-
+                                navigateToDashboard(role);
+                            }
+                        });
                     } else {
-                        Toast.makeText(this,
-                                "Login Failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void navigateToDashboard(String role) {
+        Intent intent = role.equals("Teacher") ?
+                new Intent(this, Teacher_Dashboard.class) :
+                new Intent(this, Student_Dashboard.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void setupPasswordToggle() {
+        ivclosedEye.setOnClickListener(v -> {
+            int cursor = etPassword.getSelectionStart();
+            if (isPasswordVisible) {
+                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                ivclosedEye.setImageResource(R.drawable.closedeyeicon);
+            } else {
+                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                ivclosedEye.setImageResource(R.drawable.openedeyeicon);
+            }
+            etPassword.setSelection(cursor);
+            isPasswordVisible = !isPasswordVisible;
+        });
     }
 }
