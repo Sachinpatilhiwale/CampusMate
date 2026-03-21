@@ -18,19 +18,20 @@ import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
 import com.mountreach.campusmanagementsystem.StudentDashboard.ComplaintActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.FacilitesActivity;
-import com.mountreach.campusmanagementsystem.StudentDashboard.LeaveRequestActivity;
+import com.mountreach.campusmanagementsystem.StudentDashboard.Student_LeaveRequestActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.StudentAttendanceActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.StudyMaterialActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.TimetableActivity;
 
 import java.util.List;
+
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
 
     private final List<DashboardItem> itemList;
     private final Context context;
 
-    public DashboardAdapter(Context context, List<DashboardItem> itemList) {
+    public DashboardAdapter(Context context, List<DashboardItem> itemList, String branch, String year) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -53,6 +54,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.itemView.setOnClickListener(v -> {
             Intent intent = null;
 
+            // The logic inside these activities will handle department filtering
+            // by reading from SharedPreferences "loginPrefs"
             switch (item.getTitle()) {
                 case "A.Y Calendar":
                     intent = new Intent(context, CalenderActivity.class);
@@ -83,23 +86,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                     break;
 
                 case "Leave Request":
-                    intent = new Intent(context, LeaveRequestActivity.class);
+                    intent = new Intent(context, Student_LeaveRequestActivity.class);
                     break;
 
                 case "Facilities":
                     intent = new Intent(context, FacilitesActivity.class);
                     break;
-
-
-
-
-
-
-
             }
 
-            if (intent != null) context.startActivity(intent);
-            else Toast.makeText(context, "Clicked: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+            if (intent != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "Clicked: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

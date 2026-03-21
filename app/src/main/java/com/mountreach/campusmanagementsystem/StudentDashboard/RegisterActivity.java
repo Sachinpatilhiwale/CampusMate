@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mountreach.campusmanagementsystem.R;
-import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_Dashboard;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -70,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String userId = firebaseAuth.getCurrentUser().getUid();
 
                         HashMap<String, Object> userMap = new HashMap<>();
+                        userMap.put("uid", userId);
                         userMap.put("name", name);
                         userMap.put("email", email);
                         userMap.put("branch", branch);
@@ -79,34 +79,24 @@ public class RegisterActivity extends AppCompatActivity {
 
                         db.collection("users").document(userId).set(userMap)
                                 .addOnSuccessListener(unused -> {
-                                    // SAVE FILTERS TO LOCAL STORAGE (loginPrefs)
-                                    SharedPreferences.Editor editor = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE).edit();
-                                    editor.putBoolean("isLoggedIn", true);
-                                    editor.putString("role", role);
-                                    editor.putString("branch", branch);
-                                    editor.putString("year", year);
-                                    editor.apply();
+                                    // 1. Sign out the user immediately so they have to log in manually
+                                    firebaseAuth.signOut();
 
-                                    // Direct Navigation
-                                    navigateToHome(role);
+                                    // 2. Clear any old local preferences to ensure a clean login
+                                    getSharedPreferences("loginPrefs", MODE_PRIVATE).edit().clear().apply();
+
+                                    Toast.makeText(this, "Registration Successful! Please Login.", Toast.LENGTH_LONG).show();
+
+                                    // 3. Redirect to LoginActivity
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
                                 });
                     } else {
                         Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void navigateToHome(String role) {
-        Intent intent;
-        if (role.equals("Teacher")) {
-            intent = new Intent(RegisterActivity.this, Teacher_Dashboard.class);
-        } else {
-            intent = new Intent(RegisterActivity.this, Student_Dashboard.class);
-        }
-        // Flags to clear the activity stack so user can't go back to Register page
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     private void setupDropdowns() {

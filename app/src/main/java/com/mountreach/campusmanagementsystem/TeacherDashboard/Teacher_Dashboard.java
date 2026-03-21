@@ -1,17 +1,21 @@
 package com.mountreach.campusmanagementsystem.TeacherDashboard;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar; // Ensure you have a toolbar in layout
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.mountreach.campusmanagementsystem.R;
+import com.mountreach.campusmanagementsystem.StudentDashboard.LoginActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.SettingActivity;
 import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_HomeFragment;
 import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_MyprofileFragment;
@@ -19,7 +23,7 @@ import com.mountreach.campusmanagementsystem.Teacher_Fragment.Teacher_NoticeFrag
 
 public class Teacher_Dashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    // Initialize fragments
+    // Fragments
     Teacher_HomeFragment homeFragment = new Teacher_HomeFragment();
     Teacher_NoticeFragment noticeFragment = new Teacher_NoticeFragment();
     Teacher_MyprofileFragment myprofileFragment = new Teacher_MyprofileFragment();
@@ -34,19 +38,14 @@ public class Teacher_Dashboard extends AppCompatActivity implements BottomNaviga
 
         setTitle("CampusMate (Teacher)");
 
+        // 2. Setup Bottom Navigation
         bottomNavigationView = findViewById(R.id.homebotttomnavigationview);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
 
-        // --- Load Default Home Fragment ---
-        // We use a check for savedInstanceState to prevent overlapping on rotation
+        // 3. Load Home Fragment by default
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.teacherhomeframelayout, homeFragment)
-                    .commit();
-
-            // Set the default selected item in the bottom bar
+            loadFragment(homeFragment);
             bottomNavigationView.setSelectedItemId(R.id.teacherbottommenuhome);
         }
     }
@@ -59,10 +58,17 @@ public class Teacher_Dashboard extends AppCompatActivity implements BottomNaviga
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menusetting) {
+        int id = item.getItemId();
+
+        if (id == R.id.menusetting) {
             startActivity(new Intent(Teacher_Dashboard.this, SettingActivity.class));
             return true;
         }
+//        else if (id == R.id.menulogout) { // Assuming you add a logout item to your menu
+//            logoutTeacher();
+//            return true;
+//        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -84,11 +90,21 @@ public class Teacher_Dashboard extends AppCompatActivity implements BottomNaviga
         return false;
     }
 
-    // Helper method to keep code clean
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.teacherhomeframelayout, fragment)
                 .commit();
+    }
+
+    private void logoutTeacher() {
+        // Clear all session data so the next person logging in doesn't see this teacher's department
+        SharedPreferences prefs = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        prefs.edit().clear().apply();
+
+        Intent intent = new Intent(Teacher_Dashboard.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

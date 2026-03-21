@@ -1,5 +1,7 @@
 package com.mountreach.campusmanagementsystem.Student_Fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,11 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // 1. Get Student Department Info from SharedPreferences
+        SharedPreferences prefs = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        String branch = prefs.getString("branch", "General");
+        String year = prefs.getString("year", "FE");
+
         dashboardRecycler = view.findViewById(R.id.dashboardRecycler);
         dashboardRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
@@ -45,8 +52,8 @@ public class HomeFragment extends Fragment {
         itemList.add(new DashboardItem(R.drawable.leaverequest, "Leave Request"));
         itemList.add(new DashboardItem(R.drawable.facilities, "Facilities"));
 
-
-        adapter = new DashboardAdapter(getContext(), itemList);
+        // 2. Pass branch and year to the Adapter
+        adapter = new DashboardAdapter(getContext(), itemList, branch, year);
         dashboardRecycler.setAdapter(adapter);
 
         return view;
