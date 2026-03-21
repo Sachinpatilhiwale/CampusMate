@@ -17,6 +17,7 @@ import com.mountreach.campusmanagementsystem.StudentDashboard.CalenderActivity;
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
 import com.mountreach.campusmanagementsystem.StudentDashboard.ComplaintActivity;
+import com.mountreach.campusmanagementsystem.StudentDashboard.FacilitesActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.LeaveRequestActivity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
 import com.mountreach.campusmanagementsystem.StudentDashboard.StudentAttendanceActivity;
@@ -84,6 +85,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                 case "Leave Request":
                     intent = new Intent(context, LeaveRequestActivity.class);
                     break;
+
+                case "Facilities":
+                    intent = new Intent(context, FacilitesActivity.class);
+                    break;
+
+
+
+
 
 
 

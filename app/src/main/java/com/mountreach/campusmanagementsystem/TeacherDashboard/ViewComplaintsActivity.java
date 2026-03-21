@@ -49,7 +49,7 @@ public class ViewComplaintsActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("http://10.130.49.231/complaint_api/get_complaints.php");
+                URL url = new URL("http://10.237.78.231/complaint_api/get_complaints.php");
 
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader(url.openStream())
