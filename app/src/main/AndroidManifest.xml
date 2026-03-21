@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,34 +19,38 @@
         android:theme="@style/Theme.CampusManagementSystem"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".StudentDashboard.LeaveRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeacherDashboard.ViewComplaintsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.AiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.ViewComplaintsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.ShowComplaintActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.ComplaintActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.Complaint"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.NoticeDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.MSBTE_Result_Activity"
-            android:exported="false" />
 
+        <!-- Teacher Module Activities -->
+        <activity android:name=".TeacherDashboard.Teacher_AttendenceActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_A_Y_Calender" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_TimeTableActivity" android:exported="false"/> <!-- Added -->
+        <activity android:name=".TeacherDashboard.ViewComplaintsActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_StudyMaterialActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_AttendanceActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_CalenderActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.AddStudentActivity" android:exported="false"/>
+        <activity android:name=".TeacherDashboard.Teacher_Dashboard" android:exported="false" android:theme="@style/HomeActivity" />
+
+        <!-- Student Module Activities -->
+        <activity android:name=".StudentDashboard.LeaveRequestActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.AiActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.ViewComplaintsActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.ShowComplaintActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.ComplaintActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.Complaint" android:exported="false"/>
+        <activity android:name=".StudentDashboard.NoticeDetailActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.MSBTE_Result_Activity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.PdfViewActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.StudentAttendanceActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.SettingActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.TimetableActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.StudyMaterialActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.CalenderActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.RegisterActivity" android:exported="false"/>
+        <activity android:name=".StudentDashboard.Student_Dashboard" android:exported="false" android:theme="@style/Theme.CampusManagementSystem" />
+        <activity android:name=".StudentDashboard.LoginActivity" android:exported="false"/>
+
+        <!-- File Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -56,59 +61,13 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity
-            android:name=".StudentDashboard.PdfViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeacherDashboard.Teacher_StudyMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeacherDashboard.Teacher_AttendanceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeacherDashboard.Teacher_CalenderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.StudentAttendanceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TeacherDashboard.AddStudentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.SettingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.TimetableActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.StudyMaterialActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.CalenderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.Student_Dashboard"
-            android:exported="false"
-            android:theme="@style/Theme.CampusManagementSystem" />
-        <activity
-            android:name=".TeacherDashboard.Teacher_Dashboard"
-            android:exported="false"
-            android:theme="@style/HomeActivity" />
-        <activity
-            android:name=".StudentDashboard.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentDashboard.SplashActivity"
-            android:exported="true">
+        <!-- Launcher -->
+        <activity android:name=".StudentDashboard.SplashActivity" android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>

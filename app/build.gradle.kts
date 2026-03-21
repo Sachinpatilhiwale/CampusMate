@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.google.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.messaging)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     implementation ("androidx.biometric:biometric:1.2.0-alpha05")

@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mountreach.campusmanagementsystem.Model.DashboardItem;
 import com.mountreach.campusmanagementsystem.R;
+import com.mountreach.campusmanagementsystem.StudentDashboard.AiActivity;
+import com.mountreach.campusmanagementsystem.StudentDashboard.LeaveRequestActivity;
+import com.mountreach.campusmanagementsystem.StudentDashboard.MSBTE_Result_Activity;
+import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_A_Y_Calender;
+import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_AttendanceActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_CalenderActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_StudyMaterialActivity;
 import com.mountreach.campusmanagementsystem.TeacherDashboard.Teacher_TimeTableActivity;
@@ -51,7 +56,7 @@ public class Teacher_DashboardAdapter extends RecyclerView.Adapter<Teacher_Dashb
 
             switch (item.getTitle()) {
                 case "A.Y Calendar":
-                    intent = new Intent(context, Teacher_CalenderActivity.class);
+                    intent = new Intent(context, Teacher_A_Y_Calender.class);
                     break;
 
                 case "Timetable":
@@ -59,7 +64,7 @@ public class Teacher_DashboardAdapter extends RecyclerView.Adapter<Teacher_Dashb
                     break;
 
                 case "Attendance":
-                    intent = new Intent(context, Teacher_TimeTableActivity.class);
+                    intent = new Intent(context, Teacher_AttendanceActivity.class);
                     break;
 
                 case "Study Material":
@@ -69,6 +74,19 @@ public class Teacher_DashboardAdapter extends RecyclerView.Adapter<Teacher_Dashb
                 case "Complaints":
                     intent = new Intent(context, ViewComplaintsActivity.class);
                     break;
+
+                case "MSBTE Result":
+                    intent = new Intent(context, MSBTE_Result_Activity.class);
+                    break;
+
+                case "AI chatbot":
+                    intent = new Intent(context, AiActivity.class);
+                    break;
+
+                case "Leave Request":
+                    intent = new Intent(context, LeaveRequestActivity.class);
+                    break;
+
             }
 
             if (intent != null) context.startActivity(intent);

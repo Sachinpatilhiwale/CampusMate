@@ -1,22 +1,15 @@
-package com.mountreach.campusmanagementsystem.Model;
-
 public class Student {
-    private int roll;
-    private String enroll;
-    private String name;
-    private boolean isPresent;
+    public String id;
+    public String name;
+    public String roll;
+    public String status; // Add this field
 
-    public Student(int roll, String enroll, String name, boolean isPresent) {
-        this.roll = roll;
-        this.enroll = enroll;
+    public Student() {}
+
+    public Student(String id, String name, String roll, String status){
+        this.id = id;
         this.name = name;
-        this.isPresent = isPresent;
+        this.roll = roll;
+        this.status = status; // "Present" or "Absent"
     }
-
-    // getters and setters
-    public int getRoll() { return roll; }
-    public String getEnroll() { return enroll; }
-    public String getName() { return name; }
-    public boolean isPresent() { return isPresent; }
-    public void setPresent(boolean present) { isPresent = present; }
 }

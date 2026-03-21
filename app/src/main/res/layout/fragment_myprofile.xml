@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Student_Fragment.MyprofileFragment">
+    tools:context=".Student_Fragment.Teacher_Profille_Fragment">
 
     <LinearLayout
         android:orientation="vertical"

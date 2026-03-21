@@ -1,17 +1,15 @@
 package com.mountreach.campusmanagementsystem.Model;
 
 public class TimetableModel {
-    public long id;
-    public String subject, teacher, start, end, day, room;
+    public String subject, teacher, time, room, day, key;
 
-    public TimetableModel(long id, String subject, String teacher,
-                          String start, String end, String day, String room) {
-        this.id = id;
+    public TimetableModel() {} // Required for Firebase
+
+    public TimetableModel(String subject, String teacher, String time, String room, String day) {
         this.subject = subject;
         this.teacher = teacher;
-        this.start = start;
-        this.end = end;
-        this.day = day;
+        this.time = time;
         this.room = room;
+        this.day = day;
     }
 }
